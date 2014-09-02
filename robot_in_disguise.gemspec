@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = RobotInDisguise::VERSION
   spec.authors       = ["Mario Zigliotto"]
   spec.email         = ["mariozig@gmail.com"]
-  spec.summary       = %q{TFX}
-  spec.description   = %q{TFX}
+  spec.summary       = %q{Ruby client for Intuit's Transformation Service}
+  spec.description   = %q{Client for Intuit's Transformation Service REST API}
   spec.homepage      = ""
   spec.license       = "MIT"
 
