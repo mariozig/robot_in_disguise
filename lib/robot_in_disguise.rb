@@ -1,5 +1,6 @@
 require "robot_in_disguise/version"
+require 'robot_in_disguise/client'
 
 module RobotInDisguise
-  # Your code goes here...
+
 end
