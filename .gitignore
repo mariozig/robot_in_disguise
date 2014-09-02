@@ -22,3 +22,4 @@ tmp
 *.swp
 *.swo
 mkmf.log
+.DS_Store
