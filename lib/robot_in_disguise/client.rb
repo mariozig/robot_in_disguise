@@ -11,7 +11,7 @@ module RobotInDisguise
     # @return [Proc] The block used to configure faraday.
     attr_reader :faraday_configuration
 
-    # Instantiate a new Client.
+    # Instantiate a new RobotInDisguise::Client.
     # @param url [#to_s] The URL used for building a connection. Can be overridden.
     # @yieldparam [Faraday::Connection] The setup for the faraday connection.
     # @return RobotInDisguise::Client
@@ -22,5 +22,29 @@ module RobotInDisguise
         block.call faraday
       end
     end    
+    
+    def search(collection, query, options={})
+      send_request :get, [collection], { query: options.merge({ q: query }),
+                                         response: API::CollectionResponse }
+    end
+
+    def send_request(method, path, options={})
+      headers = options.fetch(:headers, {})
+      headers['User-Agent'] = "robot_in_disguise/#{RobotInDisguise::VERSION}"
+      headers['Accept'] = 'application/json' if method == :get
+      
+      query_string = options.fetch(:query, {})
+     
+      path = ['/v2', URI.escape(s.to_s)].join('/')
+
+      body = options.fetch(:body, '')
+
+      http_response = http.send(method) do |request|
+        request.url path, query_string
+      end
+
+      response_class = options.fetch(:response, API::Response)
+      response_class.new(http_response, self)
+    end
   end
 end
