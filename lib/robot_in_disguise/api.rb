@@ -1,5 +1,8 @@
+require 'robot_in_disguise/search'
+
 module RobotInDisguise
-  # Just a namespace around the actual REST API
   module API
+    include RobotInDisguise::Posts
+    include RobotInDisguise::Search
   end
 end

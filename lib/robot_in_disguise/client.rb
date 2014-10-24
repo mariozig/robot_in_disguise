@@ -1,50 +1,73 @@
 require 'faraday'
+require 'robot_in_disguise/api'
 
 module RobotInDisguise
-
-  # A client interface
   class Client
+    include RobotInDisguise::API
 
-    # @return [Faraday::Connection] The Faraday HTTP connection.
-    attr_reader :http
+    attr_accessor :tfx_url, :proxy
 
-    # @return [Proc] The block used to configure faraday.
-    attr_reader :faraday_configuration
-
-    # Instantiate a new RobotInDisguise::Client.
-    # @param url [#to_s] The URL used for building a connection. Can be overridden.
-    # @yieldparam [Faraday::Connection] The setup for the faraday connection.
-    # @return RobotInDisguise::Client
-    def initialize(url='http://tfx', &block)
-      @faraday_configuration = block      
-      @http = Faraday.new(url) do |faraday|
-        block = lambda{ |f| f.adapter :net_http_persistent } unless block
-        block.call faraday
-      end
-    end    
-    
-    def search(collection, query, options={})
-      send_request :get, [collection], { query: options.merge({ q: query }),
-                                         response: API::CollectionResponse }
+    # @param options [Hash]
+    # @return [RobotInDisguise::Client]
+    def initialize(options = {}, tfx_url = 'https://transformation-production.ush.a.intuit.com')
+      @tfx_url = tfx_url
     end
 
-    def send_request(method, path, options={})
-      headers = options.fetch(:headers, {})
-      headers['User-Agent'] = "robot_in_disguise/#{RobotInDisguise::VERSION}"
-      headers['Accept'] = 'application/json' if method == :get
-      
-      query_string = options.fetch(:query, {})
-     
-      path = ['/v2', URI.escape(s.to_s)].join('/')
+    # @return [String]
+    def user_agent
+      @user_agent ||= "Robot in Disguise #{RobotInDisguise::VERSION}"
+    end
 
-      body = options.fetch(:body, '')
+    # @return [Hash]
+    def connection_options
+      @connection_options ||= {
+        builder: middleware,
+        headers: {
+          accept: 'application/json',
+          user_agent: user_agent,
+        },
+        request: {
+          open_timeout: 10,
+          timeout: 30,
+        },
+        proxy: proxy
+      }
+    end
 
-      http_response = http.send(method) do |request|
-        request.url path, query_string
+    # @note Faraday's middleware stack implementation is comparable to that of Rack middleware.  The order of middleware is important: the first middleware on the list wraps all others, while the last middleware is the innermost one.
+    # @see https://github.com/technoweenie/faraday#advanced-middleware-usage
+    # @see http://mislav.uniqpath.com/2011/07/faraday-advanced-http/
+    # @return [Faraday::RackBuilder]
+    def middleware
+      @middleware ||= Faraday::RackBuilder.new do |faraday|
+        # Encodes as "application/x-www-form-urlencoded" if not already encoded
+        faraday.request :url_encoded
+        # # Handle error responses
+        # faraday.response :robot_in_disguise_raise_error
+        # # Parse JSON response bodies
+        # faraday.response :robot_in_disguise_parse_json
+        # Set default HTTP adapter
+        faraday.adapter :net_http
+      end
+    end
+
+    # Perform an HTTP GET request
+    def get(path, params = {})
+      request(:get, path, params)
+    end
+
+    private
+      def connection
+        @connection ||= Faraday.new(@tfx_url, connection_options)
       end
 
-      response_class = options.fetch(:response, API::Response)
-      response_class.new(http_response, self)
-    end
+      def request(method, path, params = {}, headers = {})
+        connection.send(method.to_sym, path, params) { |request| request.headers.update(headers) }
+      # TODO: those
+      # rescue Faraday::Error::TimeoutError, Timeout::Error => error
+      #   raise(RobotInDisguise::Error::RequestTimeout.new(error))
+      # rescue Faraday::Error::ClientError, JSON::ParserError => error
+      #   raise(RobotInDisguise::Error.new(error))
+      end
   end
 end
