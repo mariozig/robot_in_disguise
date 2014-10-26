@@ -1,4 +1,5 @@
 require 'robot_in_disguise/enumerable'
+require 'robot_in_disguise/post'
 
 module RobotInDisguise
   class SearchResults
@@ -18,7 +19,20 @@ module RobotInDisguise
       @path = request.path
       @options = request.options
       @collection = []
+      self.attrs = attrs
+    end
+
+    private
+
+    # @param attrs [Hash]
+    # @return [Hash]
+    def attrs=(attrs)
+      # Clear out any existing attrs
       @attrs = attrs
+      @attrs.fetch(:items, []).collect do |post|
+        @collection << RobotInDisguise::Post.new(post)
+      end
+      @attrs
     end
   end
 end
