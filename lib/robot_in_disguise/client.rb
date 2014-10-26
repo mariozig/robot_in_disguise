@@ -1,5 +1,6 @@
 require 'faraday'
 require 'robot_in_disguise/api'
+require 'robot_in_disguise/response/parse_json'
 
 module RobotInDisguise
   class Client
@@ -44,8 +45,8 @@ module RobotInDisguise
         faraday.request :url_encoded
         # # Handle error responses
         # faraday.response :robot_in_disguise_raise_error
-        # # Parse JSON response bodies
-        # faraday.response :robot_in_disguise_parse_json
+        # Parse JSON response bodies
+        faraday.response :robot_in_disguise_parse_json
         # Set default HTTP adapter
         faraday.adapter :net_http
       end
