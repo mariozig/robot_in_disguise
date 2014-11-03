@@ -8,7 +8,6 @@ module RobotInDisguise
     # Returns a Post
     #
     # @see https://tfx/swagger/docs/somewhere
-    # @rate_limited No
     # @return [RobotInDisguise::Post] The requested Post.
     # @param post [Integer, String, URI, RobotInDisguise::Post] A Post ID, URI, or object.
     # @param options [Hash] An optional set of options.

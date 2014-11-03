@@ -20,7 +20,6 @@ module RobotInDisguise
     end
 
     # @param klass [Class]
-    # @param request [RobotInDisguise::Request]
     # @return [Object]
     def perform_with_object(klass)
       klass.new(perform)

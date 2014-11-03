@@ -9,7 +9,6 @@ module RobotInDisguise
     #
     # @see https://transformation-production.ush.a.intuit.com/ OR SOME URL FOR TFX THAT ACTUALLY WORKS
     # @note None.
-    # @rate_limited No
     # @param q [String] A search term.
     # @param options [Hash] A customizable set of options.
     # @option options [String] :primary_ds The primary data source.
