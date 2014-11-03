@@ -7,7 +7,7 @@ module RobotInDisguise
 
     # Returns articles of content that match a specified query.
     #
-    # @see https://transformation-production.ush.a.intuit.com/ OR SOME URL FOR TFX THAT ACTUALLY WORKS
+    # @see https://transformation-production.ush.a.intuit.com/ SOME URL FOR TFX THAT ACTUALLY WORKS
     # @note None.
     # @param q [String] A search term.
     # @param options [Hash] A customizable set of options.
