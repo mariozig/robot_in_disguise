@@ -1,3 +1,5 @@
+require 'robot_in_disguise/request'
+
 module RobotInDisguise
   module Utils
     private
@@ -14,6 +16,15 @@ module RobotInDisguise
         when RobotInDisguise::Post
           object.content_id
         end
+      end
+
+      # @param request_method [Symbol]
+      # @param path [String]
+      # @param options [Hash]
+      # @param klass [Class]
+      def perform_with_object(request_method, path, options, klass)
+        request = RobotInDisguise::Request.new(self, request_method, path, options)
+        request.perform_with_object(klass)
       end
   end
 end

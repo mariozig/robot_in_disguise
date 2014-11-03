@@ -18,5 +18,12 @@ module RobotInDisguise
     def perform
       @client.send(@request_method, @path, @options).body
     end
+
+    # @param klass [Class]
+    # @param request [RobotInDisguise::Request]
+    # @return [Object]
+    def perform_with_object(klass)
+      klass.new(perform)
+    end
   end
 end
