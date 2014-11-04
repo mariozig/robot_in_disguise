@@ -8,7 +8,9 @@ RSpec::Core::RakeTask.new(:spec)
 task test: :spec
 
 # Rubocop task
-RuboCop::RakeTask.new
+RuboCop::RakeTask.new(:rubocop) do |task|
+  task.options = ['--display-cop-names']
+end
 
 # Yard docs task
 YARD::Rake::YardocTask.new do |t|
