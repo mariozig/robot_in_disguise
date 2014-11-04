@@ -4,4 +4,3 @@ describe RobotInDisguise do
   xit 'does stuff' do
   end
 end
-
