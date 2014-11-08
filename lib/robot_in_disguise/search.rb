@@ -7,17 +7,22 @@ module RobotInDisguise
 
     # Returns articles of content that match a specified query.
     #
-    # @see https://transformation-production.ush.a.intuit.com/ SOME URL FOR TFX THAT ACTUALLY WORKS
+    # @see TODO: When TFX gets official documentation up, link to it.
     # @note None.
-    # @param q [String] A search term.
+    # @param q [String] A query/search string.
     # @param options [Hash] A customizable set of options.
+    # @option options [Boolean] :answered Return only answered posts from community.
+    # @option options [String] :callback A JSONP callback.
+    # @option options [String] :locale A locale.
+    # @option options [Integer] :page The current starting page.
+    # @option options [Integer] :pagesize The number of content iterms to return per page.
     # @option options [String] :primary_ds The primary data source.
-    # @option options [String] :secondary_ds The secondary data source.
-    # @option options [Integer] :pagesize The number of content pieces to return per page.
-    # @option options [String] :product The product identifier.
-    # @option options [String] :product_edition The specific edition of product.
+    # @option options [String] :product_edition The production edition.
+    # @option options [String] :product_platform The product platform.
+    # @option options [String] :product_name The product name.
     # @option options [String] :product_sku The product SKU.
-    # @option options [Integer] :product_version The numerical product version.
+    # @option options [String] :product_version The product version.
+    # @option options [String] :secondary_ds The secondary data source.
     # @return [RobotInDisguise::SearchResults] Return articles of content that match a specified query with search metadata
     def search(q, options = {})
       options[:pagesize] ||= MAX_RESULTS_PER_REQUEST
