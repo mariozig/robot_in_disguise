@@ -59,8 +59,8 @@ module RobotInDisguise
       @middleware ||= Faraday::RackBuilder.new do |faraday|
         # Encodes as "application/x-www-form-urlencoded" if not already encoded
         faraday.request :url_encoded
-        # # Handle error responses
-        # faraday.response :robot_in_disguise_raise_error
+        # Handle error responses
+        faraday.response :robot_in_disguise_raise_error
         # Parse JSON response bodies
         faraday.response :robot_in_disguise_parse_json
         # Set default HTTP adapter
