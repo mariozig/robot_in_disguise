@@ -3,10 +3,10 @@ require 'robot_in_disguise/search_results'
 
 module RobotInDisguise
   module Search
-    # @return [Integer] The default number of items to include per search page.
+    # @return [Integer] The default number of posts to include per search page.
     MAX_RESULTS_PER_REQUEST = 100
 
-    # Returns content items that match a given query and set of options.
+    # Returns posts that match a given query and set of options.
     #
     # @see http://tfx/search/docs/once/they/are/up
     # @note None.
