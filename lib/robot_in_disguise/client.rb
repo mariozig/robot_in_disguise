@@ -29,7 +29,7 @@ module RobotInDisguise
 
     # @return [Hash]
     def headers
-      {
+      @headers ||= {
         accept: 'application/json',
         user_agent: user_agent
       }
