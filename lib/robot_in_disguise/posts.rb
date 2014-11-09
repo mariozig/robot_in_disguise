@@ -7,12 +7,16 @@ module RobotInDisguise
 
     # Returns a Post
     #
-    # @see https://tfx/swagger/docs/somewhere
+    # @see http://tfx/post/docs/once/they/are/up
     # @return [RobotInDisguise::Post] The requested Post.
-    # @param post [Integer, String, URI, RobotInDisguise::Post] A Post ID, URI, or object.
-    # @param options [Hash] An optional set of options.
+    # @param post [String, URI, RobotInDisguise::Post] A Post ID, URI, or object.
+    # @param options [Hash] A customizable set of options.
+    # @option options [String] :callback A JSONP callback.
+    # @option options [Boolean] :showinternal Return post content with internal links.
+    # @option options [Boolean] :transformlinks Return post content with links transformed.
     def post(post, options = {})
-      perform_with_object(:get, "/v2/search/posts/#{extract_content_id(post)}", options, RobotInDisguise::Post)
+      url = "/v2/search/posts/#{extract_content_id(post)}"
+      perform_with_object(:get, url, options, RobotInDisguise::Post)
     end
   end
 end
