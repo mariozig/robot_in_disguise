@@ -8,7 +8,7 @@ module RobotInDisguise
   class Client
     include RobotInDisguise::API
 
-    attr_accessor :tfx_url, :proxy, :company_id
+    attr_accessor :tfx_url, :proxy, :company_id, :debug
 
     # @param options [Hash]
     # @return [RobotInDisguise::Client]
@@ -85,7 +85,9 @@ module RobotInDisguise
     private
 
     def connection
-      @connection ||= Faraday.new(tfx_url, connection_options)
+      @connection ||= Faraday.new(tfx_url, connection_options) do |faraday|
+        faraday.response :logger if debug == true
+      end
     end
 
     def request(method, path, params = {}, headers = {})
