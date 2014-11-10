@@ -72,6 +72,8 @@ module RobotInDisguise
         faraday.response :robot_in_disguise_raise_error
         # Parse JSON response bodies
         faraday.response :robot_in_disguise_parse_json
+        # Log out if requested
+        faraday.response :logger if debug == true
         # Set default HTTP adapter
         faraday.adapter :net_http
       end
@@ -85,9 +87,7 @@ module RobotInDisguise
     private
 
     def connection
-      @connection ||= Faraday.new(tfx_url, connection_options) do |faraday|
-        faraday.response :logger if debug == true
-      end
+      @connection ||= Faraday.new(tfx_url, connection_options)
     end
 
     def request(method, path, params = {}, headers = {})
