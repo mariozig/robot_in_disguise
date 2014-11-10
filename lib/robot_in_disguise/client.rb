@@ -20,6 +20,8 @@ module RobotInDisguise
         instance_variable_set("@#{key}", value)
       end
       yield(self) if block_given?
+      validate_header_type!
+    end
     end
 
     # @return [Hash]
@@ -82,7 +84,7 @@ module RobotInDisguise
     private
 
     def connection
-      @connection ||= Faraday.new(@tfx_url, connection_options)
+      @connection ||= Faraday.new(tfx_endpoint, connection_options)
     end
 
     def request(method, path, params = {}, headers = {})
@@ -94,6 +96,19 @@ module RobotInDisguise
       #   raise(RobotInDisguise::Error::RequestTimeout.new(error))
       # rescue Faraday::Error::ClientError, JSON::ParserError => error
       #   raise(RobotInDisguise::Error.new(error))
+    end
+
+    # Ensures that all headers set during configuration are of a
+    # valid type. Valid types are NilClass (empty) and String.
+    #
+    # @raise [RobotInDisguise::Error::ConfigurationError] Error is raised when
+    #   supplied values are not a NilClass or String.
+    def validate_header_type!
+      credentials.each do |credential, value|
+        valid_types = [NilClass, String]
+        next if valid_types.include?(value.class)
+        fail(RobotInDisguise::Error::ConfigurationError.new("Invalid #{header} specified: #{value.inspect} must of type: #{valid_types.join(', ')}"))
+      end
     end
   end
 end
