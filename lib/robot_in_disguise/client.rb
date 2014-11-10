@@ -20,7 +20,7 @@ module RobotInDisguise
 
     # @return [String]
     def tfx_url
-       @tfx_url ||= 'https://transformation-production.ush.a.intuit.com'
+      @tfx_url ||= 'https://transformation-production.ush.a.intuit.com'
     end
 
     # @return [Hash]
@@ -106,7 +106,9 @@ module RobotInDisguise
       credentials.each do |credential, value|
         valid_types = [NilClass, String]
         next if valid_types.include?(value.class)
-        fail(RobotInDisguise::Error::ConfigurationError.new("Invalid #{header} specified: #{value.inspect} must of type: #{valid_types.join(', ')}"))
+
+        error_message = "Invalid #{header} specified: #{value.inspect} must of type: #{valid_types.join(', ')}"
+        fail(RobotInDisguise::Error::ConfigurationError, error_message)
       end
     end
   end
