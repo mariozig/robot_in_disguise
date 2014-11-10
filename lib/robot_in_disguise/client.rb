@@ -6,7 +6,7 @@ module RobotInDisguise
   class Client
     include RobotInDisguise::API
 
-    attr_accessor :tfx_url, :proxy
+    attr_accessor :tfx_url, :proxy, :company_id
 
     # @param options [Hash]
     # @return [RobotInDisguise::Client]
@@ -22,17 +22,23 @@ module RobotInDisguise
       yield(self) if block_given?
     end
 
+    # @return [Hash]
+    def headers
+      @headers ||= {
+        accept: 'application/json',
+        user_agent: user_agent,
+        companyid: company_id
+      }
+    end
+
     # @return [String]
     def user_agent
       @user_agent ||= "Robot in Disguise #{RobotInDisguise::VERSION}"
     end
 
-    # @return [Hash]
-    def headers
-      @headers ||= {
-        accept: 'application/json',
-        user_agent: user_agent
-      }
+    # @return [String]
+    def company_id
+      @company_id ||= ''
     end
 
     # @return [Hash]
