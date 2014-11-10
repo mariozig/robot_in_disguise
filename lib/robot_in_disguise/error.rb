@@ -45,6 +45,9 @@ module RobotInDisguise
       end
     end
 
+    # Raised when some jabroni passes invalid config arguments
+    ConfigurationError = Class.new(::ArgumentError)
+
     # 4xx Client Errors:
     # Intended for cases in which the client seems to have errored.ntended for cases in which the client seems to have errored.
     # Raised when TFX returns a 4xx HTTP status code
