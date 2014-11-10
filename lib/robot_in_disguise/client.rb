@@ -2,6 +2,7 @@ require 'faraday'
 require 'robot_in_disguise/api'
 require 'robot_in_disguise/error'
 require 'robot_in_disguise/response/parse_json'
+require 'robot_in_disguise/response/raise_error'
 
 module RobotInDisguise
   class Client
