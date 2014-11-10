@@ -11,17 +11,16 @@ module RobotInDisguise
     # @param options [Hash]
     # @return [RobotInDisguise::Client]
     def initialize(options = {})
-      default_options = {
-        tfx_url: 'https://transformation-production.ush.a.intuit.com'
-      }
-      options = default_options.merge(options)
-
       options.each do |key, value|
         instance_variable_set("@#{key}", value)
       end
       yield(self) if block_given?
       validate_header_type!
     end
+
+    # @return [String]
+    def tfx_url
+       @tfx_url ||= 'https://transformation-production.ush.a.intuit.com'
     end
 
     # @return [Hash]
@@ -84,7 +83,7 @@ module RobotInDisguise
     private
 
     def connection
-      @connection ||= Faraday.new(tfx_endpoint, connection_options)
+      @connection ||= Faraday.new(tfx_url, connection_options)
     end
 
     def request(method, path, params = {}, headers = {})
