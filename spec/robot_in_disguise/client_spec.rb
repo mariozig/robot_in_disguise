@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RobotInDisguise::Client do
+describe RobotInDisguise::Client, :vcr do
   describe '#initialize' do
     context 'when invalid headers are provided' do
       it 'raises a ConfigurationError exception' do
