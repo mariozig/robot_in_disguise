@@ -1,5 +1,6 @@
 require 'faraday'
 require 'robot_in_disguise/api'
+require 'robot_in_disguise/error'
 require 'robot_in_disguise/response/parse_json'
 
 module RobotInDisguise
@@ -103,7 +104,7 @@ module RobotInDisguise
     # @raise [RobotInDisguise::Error::ConfigurationError] Error is raised when
     #   supplied values are not a NilClass or String.
     def validate_header_type!
-      credentials.each do |credential, value|
+      headers.each do |header, value|
         valid_types = [NilClass, String]
         next if valid_types.include?(value.class)
 
