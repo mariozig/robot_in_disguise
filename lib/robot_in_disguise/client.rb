@@ -1,12 +1,14 @@
 require 'faraday'
 require 'robot_in_disguise/api'
+require 'robot_in_disguise/error'
 require 'robot_in_disguise/response/parse_json'
+require 'robot_in_disguise/response/raise_error'
 
 module RobotInDisguise
   class Client
     include RobotInDisguise::API
 
-    attr_accessor :tfx_url, :proxy, :company_id
+    attr_accessor :tfx_url, :proxy, :company_id, :debug
 
     # @param options [Hash]
     # @return [RobotInDisguise::Client]
@@ -70,6 +72,8 @@ module RobotInDisguise
         faraday.response :robot_in_disguise_raise_error
         # Parse JSON response bodies
         faraday.response :robot_in_disguise_parse_json
+        # Log out if requested
+        faraday.response :logger if debug == true
         # Set default HTTP adapter
         faraday.adapter :net_http
       end
@@ -103,7 +107,7 @@ module RobotInDisguise
     # @raise [RobotInDisguise::Error::ConfigurationError] Error is raised when
     #   supplied values are not a NilClass or String.
     def validate_header_type!
-      credentials.each do |credential, value|
+      headers.each do |header, value|
         valid_types = [NilClass, String]
         next if valid_types.include?(value.class)
 
