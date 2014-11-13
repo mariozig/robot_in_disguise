@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['mariozig@gmail.com']
   spec.summary       = "Ruby client for Intuit's Transformation Service"
   spec.description   = "Client for Intuit's Transformation Service REST API"
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/mariozig/robot_in_disguise/'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
