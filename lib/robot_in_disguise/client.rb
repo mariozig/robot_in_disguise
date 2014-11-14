@@ -22,7 +22,7 @@ module RobotInDisguise
 
     # @return [String]
     def tfx_url
-      @tfx_url ||= 'https://transformation-production.ush.a.intuit.com'
+      @tfx_url ||= 'https://supportcontent.platform.intuit.com'
     end
 
     # @return [Hash]
