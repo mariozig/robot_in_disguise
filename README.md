@@ -15,7 +15,17 @@ And then execute:
 (coming soon) Or install it yourself as:
 
     $ gem install robot_in_disguise
-    
+
+## Documentation
+
+This gem's source is documented and uses YARD to generate Ruby docs.  To generate these docs locally run the following rake task:
+
+```ruby
+rake yard
+```
+
+All generated documentation will be created in the `doc` directory.
+
 ## Usage
 
 1. Create a client
@@ -59,9 +69,9 @@ results.count # => 101
 ```
 
 #### Not So Simple
-Slightly more complicated searching is also possible.  
+Slightly more complicated searching is also possible.
 
-Using the code snippet below will search TFX for "super cool invoices" that meet the following criteria: 
+Using the code snippet below will search TFX for "super cool invoices" that meet the following criteria:
 
 - Returns only 5 results
 - Uses `STSV2` as the primary datasource
@@ -73,10 +83,10 @@ We then print out the title of each `post` returned.
 ```ruby
 client = RobotInDisguise::Client.new
 search_options = {
-  primary_ds: 'STSV2', 
-  secondary_ds: 'InQuira', 
+  primary_ds: 'STSV2',
+  secondary_ds: 'InQuira',
   pagesize: 5,
-  product_name: 'QuickBooks', 
+  product_name: 'QuickBooks',
   product_platform: 'Windows'
 }
 results = client.search('super cool invoices', search_options)
@@ -106,7 +116,7 @@ post_from_ui = client.post('some_content:identifier')
 post_from_ui.title # => 'The post title'
 ```
 
-Post attributes and their values returned from TFX are automatically added to `Post` objects at the time of their instantiation.  A nice trick to see what attributes are available is using a posts's `attrs` ivar.  
+Post attributes and their values returned from TFX are automatically added to `Post` objects at the time of their instantiation.  A nice trick to see what attributes are available is using a posts's `attrs` ivar.
 
 For example:
 
