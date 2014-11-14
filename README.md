@@ -2,6 +2,8 @@
 
 A ruby client for Intuit's Transformation Service -- also known as TFX.
 
+![image](http://i.imgur.com/UtAbD7n.png)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -132,3 +134,7 @@ post.attrs.keys
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin feature/my-new-feature`)
 5. Create a new Pull Request
+
+## Extra
+
+[https://www.youtube.com/watch?v=nLS2N9mHWaw&t=20s](https://www.youtube.com/watch?v=nLS2N9mHWaw&t=20s)
