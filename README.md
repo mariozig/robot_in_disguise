@@ -112,8 +112,8 @@ post_from_post = client.post(post)
 post_from_post.title # => 'The post title'
 # As do URI objects
 post_uri = URI.parse('http://tfx/vX/search/posts/some_content:identifier')
-post_from_ui = client.post('some_content:identifier')
-post_from_ui.title # => 'The post title'
+post_from_ui = client.post(post_uri)
+post_from_ui.content # => '<html>The post content</html>'
 ```
 
 Post attributes and their values returned from TFX are automatically added to `Post` objects at the time of their instantiation.  A nice trick to see what attributes are available is using a posts's `attrs` ivar.
