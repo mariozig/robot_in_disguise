@@ -8,9 +8,13 @@ describe RobotInDisguise::Client, :vcr do
       end
     end
 
-    context 'when no headers are provided' do
-      it 'does not raise an exception' do
-        expect { RobotInDisguise::Client.new }.not_to raise_error
+    context 'when auth details are missing' do
+      it 'raises an exception against `app_id`' do
+        expect { RobotInDisguise::Client.new(app_secret: 'secret') }.to raise_exception(RobotInDisguise::Error::ConfigurationError)
+      end
+
+      it 'raises an exception against `app_secret`' do
+        expect { RobotInDisguise::Client.new(app_id: 'secret') }.to raise_exception(RobotInDisguise::Error::ConfigurationError)
       end
     end
   end

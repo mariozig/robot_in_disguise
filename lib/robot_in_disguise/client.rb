@@ -8,7 +8,7 @@ module RobotInDisguise
   class Client
     include RobotInDisguise::API
 
-    attr_accessor :tfx_url, :proxy, :company_id, :debug
+    attr_accessor :app_id, :app_secret, :tfx_url, :proxy, :company_id, :debug
 
     # @param options [Hash]
     # @return [RobotInDisguise::Client]
@@ -17,6 +17,7 @@ module RobotInDisguise
         instance_variable_set("@#{key}", value)
       end
       yield(self) if block_given?
+      validate_app_credentials!
       validate_header_type!
     end
 
@@ -30,7 +31,8 @@ module RobotInDisguise
       @headers ||= {
         accept: 'application/json',
         user_agent: user_agent,
-        companyid: company_id
+        companyid: company_id,
+        authorization: "Intuit_IAM_Authentication intuit_appid=#{app_id},intuit_app_secret=#{app_secret}"
       }
     end
 
@@ -114,6 +116,16 @@ module RobotInDisguise
         error_message = "Invalid #{header} specified: #{value.inspect} must of type: #{valid_types.join(', ')}"
         fail(RobotInDisguise::Error::ConfigurationError, error_message)
       end
+    end
+
+    # Ensures that required app credentials, `app_secret` and `app_id`, are present.
+    #
+    # @see https://developer.intuit.com/v2/docs/0000_about_intuit_developer/0030_manage_your_apps
+    # @raise [RobotInDisguise::Error::ConfigurationError] Error is raised when
+    #   supplied values are not present.
+    def validate_app_credentials!
+      error_message = 'An `app_id` and `app_secret` must be supplied'
+      fail(RobotInDisguise::Error::ConfigurationError, error_message) if app_id.nil? || app_secret.nil?
     end
   end
 end
