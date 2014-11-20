@@ -35,20 +35,27 @@ All generated documentation will be created in the `doc` directory.
 
 ### The Client
 
+*Note: You must have an account with Intuit's Services Portal to access any of Intuit's public services.*
+
 Creating a new client is easy.
 
 The following code will create a new client object without anything special added on.
 
 ```ruby
-client = RobotInDisguise::Client.new
+client = RobotInDisguise::Client.new do |c|
+  c.app_id = 'YOUR_APP_ID'
+  c.app_secret = 'YOUR_APP_SECRET'
+end
 ```
 
-The client also supports being passed a block with additional configs. For example the client below:
+The client configuration block additional configs. For example check out the client below:
 
 ```ruby
 configured_client = RobotInDisguise::Client.new do |c|
-  c.tfx_url = 'http://tfx.example.com'
+  c.app_id = 'YOUR_APP_ID'
+  c.app_secret = 'YOUR_APP_SECRET'
   c.company_id = '12345'
+  c.tfx_url = 'http://tfx.example.com'
 end
 ```
 
