@@ -5,9 +5,3 @@ module RobotInDisguise
     end
   end
 end
-
-
-search_options = {
-  primary_ds: 'STSV2',
-  secondary_ds: 'InQuira'
-}
